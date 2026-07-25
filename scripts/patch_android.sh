@@ -64,26 +64,38 @@ GRADLE_GROOVY="android/app/build.gradle"
 patch_gradle() {
   local file="$1"
   if [ -f "$file" ]; then
-    if ! grep -q "isCoreLibraryDesugaringEnabled" "$file"; then
-      python3 - "$file" <<'PYEOF'
+    python3 - "$file" <<'PYEOF'
 import re, sys
 path = sys.argv[1]
 with open(path, "r", encoding="utf-8") as f:
     content = f.read()
 
-# Aktifkan core library desugaring di compileOptions
-content = re.sub(
-    r"compileOptions\s*\{",
-    "compileOptions {\n        isCoreLibraryDesugaringEnabled = true",
-    content,
-    count=1,
-)
+# Aktifkan core library desugaring di compileOptions (kalau belum ada)
+if "isCoreLibraryDesugaringEnabled" not in content:
+    content = re.sub(
+        r"compileOptions\s*\{",
+        "compileOptions {\n        isCoreLibraryDesugaringEnabled = true",
+        content,
+        count=1,
+    )
 
-# Tambahkan dependency desugaring jika belum ada
+# Tambahkan dependency desugaring — INI DICEK TERPISAH dari flag di atas,
+# karena template Flutter terbaru kadang sudah menyetel
+# isCoreLibraryDesugaringEnabled = true lewat plugin lain, tapi belum
+# tentu sudah menambahkan dependency-nya. Kalau dua pengecekan ini
+# digabung jadi satu, dependency-nya bisa gagal ditambahkan padahal
+# flag-nya sudah aktif -> Gradle error "configuration contains no
+# dependencies".
 if "com.android.tools:desugar_jdk_libs" not in content:
+    is_kts = path.endswith(".kts")
+    dep_line = (
+        '    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")'
+        if is_kts
+        else "    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'"
+    )
     content = re.sub(
         r"dependencies\s*\{",
-        'dependencies {\n    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")',
+        f"dependencies {{\n{dep_line}",
         content,
         count=1,
     )
@@ -91,8 +103,7 @@ if "com.android.tools:desugar_jdk_libs" not in content:
 with open(path, "w", encoding="utf-8") as f:
     f.write(content)
 PYEOF
-      echo "Patch $file untuk core library desugaring selesai."
-    fi
+    echo "Patch $file untuk core library desugaring selesai."
   fi
 }
 
