@@ -1,0 +1,64 @@
+name: reminder_diary_app
+description: Aplikasi Reminder & Diary pribadi dengan proteksi PIN.
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+  # Routing
+  go_router: ^14.2.0
+
+  # Database
+  drift: ^2.19.1
+  sqlite3_flutter_libs: ^0.5.24
+  path_provider: ^2.1.3
+  path: ^1.9.0
+
+  # Notification
+  flutter_local_notifications: ^17.2.2
+  timezone: ^0.9.4
+
+  # Formatting
+  intl: ^0.19.0
+
+  # Preferences & secure storage
+  shared_preferences: ^2.2.3
+  flutter_secure_storage: ^9.2.2
+
+  # Security (PIN hash & content encryption)
+  crypto: ^3.0.3
+  encrypt: ^5.0.3
+
+  # UI
+  cupertino_icons: ^1.0.8
+  flutter_animate: ^4.5.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.11
+  drift_dev: ^2.19.1
+  riverpod_generator: ^2.4.0
+  flutter_launcher_icons: ^0.14.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icon/
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon/app_icon.png"
+  adaptive_icon_background: "#101014"
+  adaptive_icon_foreground: "assets/icon/app_icon_fg.png"
