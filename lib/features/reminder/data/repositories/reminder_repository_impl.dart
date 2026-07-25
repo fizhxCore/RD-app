@@ -25,7 +25,7 @@ class ReminderRepositoryImpl implements ReminderRepository {
     return _local.insert(db.RemindersCompanion.insert(
       title: reminder.title,
       note: db.Value(reminder.note),
-      dateTime: reminder.dateTime,
+      dueAt: reminder.dateTime,
       priority: db.Value(reminder.priority.name),
       category: db.Value(reminder.category),
       colorValue: db.Value(reminder.colorValue),
@@ -41,7 +41,7 @@ class ReminderRepositoryImpl implements ReminderRepository {
       db.RemindersCompanion(
         title: db.Value(reminder.title),
         note: db.Value(reminder.note),
-        dateTime: db.Value(reminder.dateTime),
+        dueAt: db.Value(reminder.dateTime),
         priority: db.Value(reminder.priority.name),
         category: db.Value(reminder.category),
         colorValue: db.Value(reminder.colorValue),
@@ -77,7 +77,7 @@ class ReminderRepositoryImpl implements ReminderRepository {
       id: row.id,
       title: row.title,
       note: row.note,
-      dateTime: row.dateTime,
+      dateTime: row.dueAt,
       priority: ReminderPriority.values.byName(row.priority),
       category: row.category,
       colorValue: row.colorValue,
