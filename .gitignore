@@ -1,0 +1,23 @@
+# Flutter/Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+lib/**/*.g.dart
+
+# Android — folder ini SENGAJA tidak dicommit.
+# GitHub Actions men-generate & mem-patch ulang dari nol setiap build
+# (lihat .github/workflows/build.yml + scripts/patch_android.sh),
+# supaya repo tetap ringan dan tidak ada file native yang basi.
+/android/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# macOS
+.DS_Store
