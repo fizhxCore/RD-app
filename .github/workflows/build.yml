@@ -30,6 +30,13 @@ jobs:
       - name: Patch AndroidManifest & Gradle (notification permissions)
         run: bash scripts/patch_android.sh
 
+      - name: Debug - show patched build.gradle
+        run: |
+          echo "--- android/app/build.gradle.kts (jika ada) ---"
+          cat android/app/build.gradle.kts 2>/dev/null || echo "(tidak ada)"
+          echo "--- android/app/build.gradle (jika ada) ---"
+          cat android/app/build.gradle 2>/dev/null || echo "(tidak ada)"
+
       - name: Get dependencies
         run: flutter pub get
 
