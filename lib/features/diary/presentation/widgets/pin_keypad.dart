@@ -31,7 +31,9 @@ class PinKeypad extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(maxLength, (i) {
             final filled = i < pinLength;
-            return Container(
+            return AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              curve: Curves.easeOut,
               margin: const EdgeInsets.symmetric(horizontal: 6),
               width: 16,
               height: 16,
@@ -80,24 +82,34 @@ class PinKeypad extends StatelessWidget {
   }
 }
 
-class _KeyButton extends StatelessWidget {
+class _KeyButton extends StatefulWidget {
   const _KeyButton({required this.label, required this.onTap});
   final String label;
   final VoidCallback onTap;
 
   @override
+  State<_KeyButton> createState() => _KeyButtonState();
+}
+
+class _KeyButtonState extends State<_KeyButton> {
+  bool _pressed = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      shape: const CircleBorder(),
-      child: InkWell(
-        customBorder: const CircleBorder(),
-        onTap: onTap,
+    return GestureDetector(
+      onTapDown: (_) => setState(() => _pressed = true),
+      onTapUp: (_) => setState(() => _pressed = false),
+      onTapCancel: () => setState(() => _pressed = false),
+      onTap: widget.onTap,
+      child: AnimatedScale(
+        scale: _pressed ? 0.88 : 1.0,
+        duration: const Duration(milliseconds: 120),
+        curve: Curves.easeOut,
         child: SizedBox(
           width: 64,
           height: 64,
           child: Center(
-            child: Text(label, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500)),
+            child: Text(widget.label, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500)),
           ),
         ),
       ),
