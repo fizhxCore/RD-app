@@ -62,7 +62,19 @@ class _RootShellState extends ConsumerState<RootShell> with WidgetsBindingObserv
     final pages = [const HomePage(), _diaryTab(), const SettingsPage()];
 
     return Scaffold(
-      body: IndexedStack(index: _index, children: pages),
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 260),
+        switchInCurve: Curves.easeOut,
+        switchOutCurve: Curves.easeIn,
+        transitionBuilder: (child, animation) => FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
+        child: KeyedSubtree(
+          key: ValueKey(_index),
+          child: pages[_index],
+        ),
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
         onDestinationSelected: (i) => setState(() => _index = i),
