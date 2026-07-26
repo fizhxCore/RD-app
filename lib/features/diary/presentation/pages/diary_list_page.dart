@@ -41,8 +41,8 @@ class DiaryListPage extends ConsumerWidget {
               final entry = entries[i];
               return _DiaryTile(entry: entry)
                   .animate()
-                  .fadeIn(delay: (i * 40).ms)
-                  .slideY(begin: 0.06, end: 0);
+                  .fadeIn(delay: (i * 45).ms, duration: 320.ms, curve: Curves.easeOut)
+                  .slideY(begin: 0.06, end: 0, duration: 320.ms, curve: Curves.easeOutCubic);
             },
           );
         },
