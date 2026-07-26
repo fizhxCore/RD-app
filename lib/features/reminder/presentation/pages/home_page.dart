@@ -75,7 +75,10 @@ class _Section extends StatelessWidget {
               onToggleComplete: () =>
                   ref.read(reminderListProvider.notifier).toggleCompleted(reminder),
               onDismiss: () => ref.read(reminderListProvider.notifier).remove(reminder),
-            ).animate().fadeIn(delay: (index * 40).ms).slideY(begin: 0.08, end: 0),
+            )
+                .animate()
+                .fadeIn(delay: (index * 45).ms, duration: 320.ms, curve: Curves.easeOut)
+                .slideY(begin: 0.06, end: 0, duration: 320.ms, curve: Curves.easeOutCubic),
           );
         }),
       ],
