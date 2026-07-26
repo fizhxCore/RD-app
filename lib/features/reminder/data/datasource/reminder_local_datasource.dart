@@ -10,7 +10,7 @@ class ReminderLocalDataSource {
   Future<List<Reminder>> getAll() async {
     try {
       return await (_db.select(_db.reminders)
-            ..orderBy([(t) => OrderingTerm.asc(t.dateTime)]))
+            ..orderBy([(t) => OrderingTerm.asc(t.dueAt)]))
           .get();
     } catch (e) {
       throw const DatabaseException('Gagal memuat daftar reminder');
