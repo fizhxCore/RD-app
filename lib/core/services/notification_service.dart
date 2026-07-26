@@ -87,6 +87,7 @@ class NotificationService {
         tz.TZDateTime.from(notifyAt, tz.local),
         _notificationDetails(),
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
         payload: reminder.id.toString(),
         matchDateTimeComponents: null, // reschedule manual, bukan otomatis
       );
@@ -123,6 +124,7 @@ class NotificationService {
       tz.TZDateTime.from(target, tz.local),
       _notificationDetails(),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       payload: reminder.id.toString(),
     );
     return snoozeId;
